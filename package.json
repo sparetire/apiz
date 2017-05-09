@@ -1,0 +1,26 @@
+{
+  "name": "apiz",
+  "version": "1.0.0",
+  "description": "A api manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sparetire/apiz.git"
+  },
+  "keywords": [
+    "api",
+    "manager"
+  ],
+  "author": "Sparetire",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/sparetire/apiz/issues"
+  },
+  "homepage": "https://github.com/sparetire/apiz#readme",
+  "dependencies": {
+    "querystring": "^0.2.0"
+  }
+}
