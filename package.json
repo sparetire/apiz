@@ -1,6 +1,6 @@
 {
   "name": "apiz",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A api manager",
   "main": "index.js",
   "scripts": {
