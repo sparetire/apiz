@@ -285,6 +285,12 @@
 		if (flag) {
 			return client.put(url, opts);
 		}
+		
+		if (type === 'json') {
+			body = JSON.stringify(body);
+		} else {
+			body = QueryString.stringify(body);
+		}
 
 		if (!qs && !params) {
 			return client.put(url, body, type);
@@ -305,11 +311,6 @@
 			url = url.indexOf('?') === -1 ? url + '?' + qs : url + '&' + qs;
 		}
 
-		if (type === 'json') {
-			body = JSON.stringify(body);
-		} else {
-			body = QueryString.stringify(body);
-		}
 
 		return client.put(url, body, type);
 	}
