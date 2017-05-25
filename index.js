@@ -16,7 +16,7 @@
 	} else if (typeof module !== 'undefined' && module.exports) {
 		module.exports = factory(require('querystring'));
 	} else {
-		root.apis = factory(qs);
+		root.APIs = factory(qs);
 	}
 })(this, function (QueryString) {
 
