@@ -362,6 +362,7 @@
 	}
 
 	function APIs(config, client) {
+		var self = this instanceof APIs ? this : Object.create(APIs.prototype);
 		var defaultHost = null;
 		for (var key in config) {
 			if (key === 'host') {
@@ -371,9 +372,10 @@
 				if (!api.host && !api.url) {
 					api.host = defaultHost;
 				}
-				this[key] = apiFactory(api, client);
+				self[key] = apiFactory(api, client);
 			}
 		}
+		return self;
 	}
 
 	return APIs;
