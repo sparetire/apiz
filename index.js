@@ -24,6 +24,7 @@
 		GET: 'GET',
 		POST: 'POST',
 		PUT: 'PUT',
+		PATCH: 'PATCH',
 		DELETE: 'DELETE',
 		HEAD: 'HEAD',
 		OPTIONS: 'OPTIONS'
@@ -316,6 +317,83 @@
 	}
 
 
+	function _patch(args) {
+		var info = arguments[arguments.length-1],
+			url = info.url,
+			type = info.type,
+			restful = info.restful,
+			client = info.client,
+			qs = null,
+			params = null,
+			body = null,
+			opts = null,
+			flag = null;
+
+		if (typeof arguments[1] === 'boolean') {
+			flag = arguments[1];
+			if (flag) {
+				opts = arguments[0];
+			} else {
+				body = arguments[0];
+			}
+		} else if (restful) {
+			if (arguments.length > 3) {
+				body = arguments[0];
+				params = arguments[1];
+				qs = arguments[2];
+			} else if (arguments.length > 2) {
+				body = arguments[0];
+				params = arguments[1];
+			} else if (arguments.length > 1) {
+				body = arguments[0];
+			} else {
+				throw new Error('Body can\'t be empty.');
+			}
+		} else {
+			if (arguments.length > 2) {
+				body = arguments[0];
+				qs = arguments[1];
+			} else if (arguments.length > 1) {
+				body = arguments[0];
+			} else {
+				throw new Error('Body can\'t be empty.');
+			}
+		}
+
+		if (flag) {
+			return client.patch(url, opts);
+		}
+		
+		if (type === 'json') {
+			body = JSON.stringify(body);
+		} else {
+			body = QueryString.stringify(body);
+		}
+
+		if (!qs && !params) {
+			return client.patch(url, body, type);
+		}
+		
+		if (params) {
+			var reg = /{(\w+)}/g;
+			url = url.replace(reg, function (m, v) {
+				if (params[v] == null) {
+					throw new Error('The parameter does\'t have an property named ' + v);
+				}
+				return params[v];
+			});
+		}
+
+		if (qs) {
+			qs = QueryString.stringify(qs);
+			url = url.indexOf('?') === -1 ? url + '?' + qs : url + '&' + qs;
+		}
+
+
+		return client.patch(url, body, type);
+	}
+
+
 	function apiFactory(config, httpClient) {
 		var func = null,
 			method = (config.method && config.method.toUpperCase()) || methods.GET,
@@ -346,6 +424,11 @@
 					return _put.apply(this, Array.prototype.slice.call(arguments).concat(apiInfo));
 				};
 				break;
+			case methods.PATCH:
+				func = function (args) {
+					return _patch.apply(this, Array.prototype.slice.call(arguments).concat(apiInfo));
+				};
+				break;
 		
 			default:
 				throw new Error('Invalid http method: ' + method);
@@ -353,7 +436,7 @@
 		func.url = apiInfo.url;
 		func.method = method;
 		func.restful = apiInfo.restful;
-		if (method === methods.POST || method === methods.PUT) {
+		if (method === methods.POST || method === methods.PUT || method.PATCH) {
 			func.type = apiInfo.type;
 		} else {
 			func.type = null;
