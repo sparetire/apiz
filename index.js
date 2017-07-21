@@ -96,7 +96,7 @@
 				if (params[v] == null) {
 					throw new Error('The parameter does\'t have an property named ' + v);
 				}
-				return params[v];
+				return encodeURIComponent(params[v]);
 			});
 		}
 
@@ -153,7 +153,7 @@
 				if (params[v] == null) {
 					throw new Error('The parameter does\'t have an property named ' + v);
 				}
-				return params[v];
+				return encodeURIComponent(params[v]);
 			});
 		}
 
@@ -227,7 +227,7 @@
 				if (params[v] == null) {
 					throw new Error('The parameter does\'t have an property named ' + v);
 				}
-				return params[v];
+				return encodeURIComponent(params[v]);
 			});
 		}
 
@@ -303,7 +303,7 @@
 				if (params[v] == null) {
 					throw new Error('The parameter does\'t have an property named ' + v);
 				}
-				return params[v];
+				return encodeURIComponent(params[v]);
 			});
 		}
 
@@ -380,7 +380,7 @@
 				if (params[v] == null) {
 					throw new Error('The parameter does\'t have an property named ' + v);
 				}
-				return params[v];
+				return encodeURIComponent(params[v]);
 			});
 		}
 
